@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+
+    tools {
+  git 'Default'
+  maven 'maven'
+}
+
+    stages {
+        stage('Build') {
+            steps {
+ 
+                git 'https://github.com/sreeramakumar/hello-world.git'
+
+                sh "mvn -Dmaven.test.failure.ignore=true clean package"
+
+                
+            }
+
+            
+        }
+        stage('email') {
+            steps {
+                emailext attachLog: true, attachmentsPattern: '*.csv', body: '''$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
+
+Check console output at $BUILD_URL to view the results.''', recipientProviders: [buildUser()], subject: '$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!', to: 'sriramkumar.n@gmail.com'
+            }
+        }
+    }
+       
+}
