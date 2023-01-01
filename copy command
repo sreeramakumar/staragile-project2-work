@@ -1,0 +1,10 @@
+Command to copying the entire folder recursively is:
+
+COPY folder-to-copy/ /target/path/in/docker/image/
+
+Above command will copy recursively all directories and files from given directory (folder-to-copy) to given path (/target/path/in/docker/image).
+
+It’s little tricky because command:
+
+COPY folder-to-copy/* /target/path/in/docker/image/
+working not recursively.
